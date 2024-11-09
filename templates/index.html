@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection Detection</title>
+</head>
+<body>
+    <h1>SQL Injection Detection</h1>
+    <form id="inputForm">
+        <label for="inputText">Enter text to check:</label><br>
+        <textarea id="inputText" name="input_text" rows="4" cols="50"></textarea><br><br>
+        <button type="submit">Check</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        document.getElementById("inputForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const inputText = document.getElementById("inputText").value;
+            const response = await fetch("/check", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ input_text: inputText })
+            });
+            const data = await response.json();
+            document.getElementById("result").innerText = `Result: ${data.result}`;
+        };
+    </script>
+</body>
+</html>
